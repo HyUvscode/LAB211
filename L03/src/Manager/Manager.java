@@ -117,7 +117,7 @@ public class Manager {
             System.err.println("No items available. Please add items to the shop.");
             return;
         }
-// Check if all fruits are out of stock
+        // Check if all fruits are out of stock
         if (Validation.areAllItemsOutOfStock(lf)) {
             System.err.println("All items are out of stock. Thank you for shopping!");
             return;
@@ -164,8 +164,13 @@ public class Manager {
         }
 
         name = sb.toString().trim(); // Convert the StringBuilder to a string and trim any leading/trailing spaces
-
-        ht.put(name, lo); // Add the list of orders to the hashtable with the given name
+        // Check if the customer's name already exists in the hashtable
+        if (ht.containsKey(name)) {
+            ArrayList<Order> exitOrders = ht.get(name); // Retrieve the existing list of orders
+            exitOrders.addAll(lo); // Append the new orders to the existing list
+        } else {
+            ht.put(name, lo); // Add the list of orders to the hashtable with the given name
+        }
         System.out.println("Add successful");
     }
 
