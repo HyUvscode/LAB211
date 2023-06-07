@@ -10,12 +10,30 @@ import java.util.Scanner;
 
 /**
  * A utility class for validating user input.
- * 
+ *
  * @author khuakhanhhuy
  */
 public class Validation {
 
     private static Scanner scanner = new Scanner(System.in); // Create a Scanner object
+
+    /**
+     * Reads a non-empty string input from the user.
+     *
+     * @return the non-empty string input
+     */
+    public static String checkInputString() {
+        // Loop until the user inputs a non-empty value
+        while (true) {
+            String result = scanner.nextLine().trim(); // Read the user input as a string and remove leading/trailing spaces
+            if (result.isEmpty()) {
+                System.err.println("Input should not be empty"); // Display an error message if the input is empty
+                System.out.print("Enter again: "); // Prompt the user to enter the value again
+            } else {
+                return result; // Return the non-empty input value
+            }
+        }
+    }
 
     /**
      * Get an integer value from the user.
@@ -239,5 +257,29 @@ public class Validation {
             }
         }
         return false; // Phone number is not a duplicate
+    }
+
+    /**
+     * Prompts the user to input 'Y' or 'N' and returns true for 'Y' and false
+     * for 'N
+     *
+     * @return true if the user inputs 'Y', false if the user inputs 'N'
+     */
+    public static boolean checkInputYN() {
+        System.out.print("Do you want to continue (Y/N)? ");
+        // Loop until the user inputs a correct choice
+        while (true) {
+            String result = checkInputString(); // Read the user input as a string
+            // Return true if the user input is 'y' or 'Y'
+            if (result.equalsIgnoreCase("Y")) {
+                return true;
+            }
+            // Return false if the user input is 'n' or 'N'
+            if (result.equalsIgnoreCase("N")) {
+                return false;
+            }
+            System.err.println("Please input 'y' or 'Y' for Yes, or 'n' or 'N' for No."); // Display an error message for invalid input
+            System.out.print("Enter again: "); // Prompt the user to enter the choice again
+        }
     }
 }
