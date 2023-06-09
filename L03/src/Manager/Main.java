@@ -19,23 +19,21 @@ public class Main {
 
     public static void main(String[] args) {
         Manager manager = new Manager();
-        ArrayList<Fruit> lf = new ArrayList<>();
-        Hashtable<String, ArrayList<Order>> ht = new Hashtable<>();
         //loop until user want to exit
         while (true) {
             int choice = manager.menu();
             switch (choice) {
                 case 1:
-                    manager.createFruit(lf);
+                    manager.createFruit();
                     break;
                 case 2:
-                    manager.viewOrder(lf, ht);
+                    manager.viewOrder();
                     break;
                 case 3:
-                    manager.shopping(lf, ht);
+                    manager.shopping();
                     break;
                 case 4:
-                    manager.autoAddFruit(lf, ht);
+                    manager.autoAddFruit();
                     break;
                 case 5:
                     return;
