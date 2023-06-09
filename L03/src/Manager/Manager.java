@@ -19,6 +19,16 @@ import java.util.List;
  */
 public class Manager {
 
+    private ArrayList<Fruit> lf;
+    private ArrayList<Order> lo;
+    private Hashtable<String, ArrayList<Order>> ht;
+
+    public Manager() {
+        lf = new ArrayList<>();
+        lo = new ArrayList<>();
+        ht = new Hashtable<>();
+    }
+
     /**
      * Displays the menu and gets the user's choice.
      *
@@ -41,7 +51,7 @@ public class Manager {
      *
      * @param lf the list of fruits
      */
-    public void createFruit(ArrayList<Fruit> lf) {
+    public void createFruit() {
         //loop until user doesn't want to create fruit
         while (true) {
             String fruitId = Validation.getStringWithNumbers("Enter fruit ID: ", "Error: The input address should only contain letters and numbers.");
@@ -84,7 +94,7 @@ public class Manager {
      * @param lf the list of fruits
      * @param ht the hashtable to store orders by customer
      */
-    public void viewOrder(ArrayList<Fruit> lf, Hashtable<String, ArrayList<Order>> ht) {
+    public void viewOrder() {
         // Check if there are no customers
         if (ht.isEmpty()) {
             System.err.println("No customers found.");
@@ -94,13 +104,13 @@ public class Manager {
         // Iterate through each customer in the hashtable
         for (String name : ht.keySet()) {
             System.out.println("Customer: " + name); // Display the name of the customer
-            ArrayList<Order> lo = ht.get(name); // Get the list of orders for the current customer
+            lo = ht.get(name); // Get the list of orders for the current customer
 
             // Check if the customer has any orders
             if (lo.isEmpty()) {
                 System.out.println("No orders found.");
             } else {
-                displayListOrder(lo); // Display the list of orders for the current customer
+                displayListOrder(); // Display the list of orders for the current customer
             }
         }
     }
@@ -111,31 +121,31 @@ public class Manager {
      * @param lf the list of fruits
      * @param ht the hashtable to store orders by customer
      */
-    public void shopping(ArrayList<Fruit> lf, Hashtable<String, ArrayList<Order>> ht) {
+    public void shopping() {
         //check if the list of fruits is empty, user can't buy
         if (lf.isEmpty()) {
             System.err.println("No items available. Please add items to the shop.");
             return;
         }
-// Check if all fruits are out of stock
+        // Check if all fruits are out of stock
         if (Validation.areAllItemsOutOfStock(lf)) {
             System.err.println("All items are out of stock. Thank you for shopping!");
             return;
         }
         //loop until user doesn't want to continue buying
-        ArrayList<Order> lo = new ArrayList<>();
+       lo = new ArrayList<>();
         while (true) {
-            displayListFruit(lf); // Display the list of available fruits
+            displayListFruit(); // Display the list of available fruits
             System.out.print("Enter item: ");
             int item = Validation.checkInputIntLimit(1, Validation.getFruitListSize(lf)); // Get the selected item index
-            Fruit fruit = getFruitByItem(lf, item); // Get the selected fruit from the list
+            Fruit fruit = getFruitByItem(item); // Get the selected fruit from the list
             System.out.print("Enter quantity: ");
             int quantity = Validation.checkInputIntLimit(1, fruit.getQuantity()); // Get the desired quantity
             fruit.setQuantity(fruit.getQuantity() - quantity); // Update the fruit's quantity
 
             //check if the item exists in the order list or not
             if (!Validation.checkItemExist(lo, fruit.getFruitId())) {
-                updateOrder(lo, fruit.getFruitId(), quantity); // Update the existing order with the new quantity
+                updateOrder(fruit.getFruitId(), quantity); // Update the existing order with the new quantity
             } else {
                 lo.add(new Order(fruit.getFruitId(), fruit.getFruitName(),
                         quantity, fruit.getPrice())); // Create a new order for the item
@@ -151,7 +161,7 @@ public class Manager {
                 }
             }
         }
-        displayListOrder(lo); // Display the list of orders made by the user
+        displayListOrder(); // Display the list of orders made by the user
         String name = Validation.getStringOrigin("Enter name: ", "Error: The input name should only contain letters and spaces.");
         String[] nameParts = name.split(" "); // Split the input name into an array of parts
         StringBuilder sb = new StringBuilder(); // Create a StringBuilder to build the capitalized name
@@ -164,8 +174,13 @@ public class Manager {
         }
 
         name = sb.toString().trim(); // Convert the StringBuilder to a string and trim any leading/trailing spaces
-
-        ht.put(name, lo); // Add the list of orders to the hashtable with the given name
+        // Check if the customer's name already exists in the hashtable
+        if (ht.containsKey(name)) {
+            ArrayList<Order> exitOrders = ht.get(name); // Retrieve the existing list of orders
+            exitOrders.addAll(lo); // Append the new orders to the existing list
+        } else {
+            ht.put(name, lo); // Add the list of orders to the hashtable with the given name
+        }
         System.out.println("Add successful");
     }
 
@@ -174,7 +189,7 @@ public class Manager {
      *
      * @param lf the list of fruits
      */
-    public void displayListFruit(ArrayList<Fruit> lf) {
+    public void displayListFruit() {
         // Initialize a counter to keep track of the item number
         int countItem = 1;
 
@@ -199,7 +214,7 @@ public class Manager {
      * @param item the selected item
      * @return the fruit selected by the user
      */
-    public Fruit getFruitByItem(ArrayList<Fruit> lf, int item) {
+    public Fruit getFruitByItem(int item) {
         // Initialize a counter to keep track of the item number
         int countItem = 1;
 
@@ -227,7 +242,7 @@ public class Manager {
      *
      * @param lo the list of orders
      */
-    public void displayListOrder(ArrayList<Order> lo) {
+    public void displayListOrder() {
         // Initialize a variable to keep track of the total amount
         double total = 0;
 
@@ -256,7 +271,7 @@ public class Manager {
      * @param id the ID of the fruit
      * @param quantity the quantity of the fruit
      */
-    public void updateOrder(ArrayList<Order> lo, String id, int quantity) {
+    public void updateOrder(String id, int quantity) {
         // Iterate over each Order object in the ArrayList
         for (Order order : lo) {
             // Check if the fruit ID of the current order matches the given ID
@@ -274,7 +289,7 @@ public class Manager {
      * @param lf the list of fruits
      * @param ht the hashtable of orders
      */
-    public void autoAddFruit(ArrayList<Fruit> lf, Hashtable<String, ArrayList<Order>> ht) {
+    public void autoAddFruit() {
         int numOfFruitsToAdd = Validation.getInt("Enter the number of fruits to add: ");
 
         for (int i = 1; i <= numOfFruitsToAdd; i++) {
