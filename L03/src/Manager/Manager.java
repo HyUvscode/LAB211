@@ -9,7 +9,6 @@ import Entity.Fruit;
 import Entity.Order;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Manager class that contains methods related to managing the program's
@@ -49,7 +48,6 @@ public class Manager {
     /**
      * Allows the user to create a new fruit.
      *
-     * @param lf the list of fruits
      */
     public void createFruit() {
         //loop until user doesn't want to create fruit
@@ -91,8 +89,6 @@ public class Manager {
     /**
      * Allows the user to view the orders.
      *
-     * @param lf the list of fruits
-     * @param ht the hashtable to store orders by customer
      */
     public void viewOrder() {
         // Check if there are no customers
@@ -118,8 +114,6 @@ public class Manager {
     /**
      * Allows the user to perform shopping.
      *
-     * @param lf the list of fruits
-     * @param ht the hashtable to store orders by customer
      */
     public void shopping() {
         //check if the list of fruits is empty, user can't buy
@@ -187,7 +181,6 @@ public class Manager {
     /**
      * Displays the list of fruits in the shop.
      *
-     * @param lf the list of fruits
      */
     public void displayListFruit() {
         // Initialize a counter to keep track of the item number
@@ -210,7 +203,6 @@ public class Manager {
     /**
      * Gets the fruit selected by the user.
      *
-     * @param lf the list of fruits
      * @param item the selected item
      * @return the fruit selected by the user
      */
@@ -240,7 +232,6 @@ public class Manager {
     /**
      * Displays the list of orders.
      *
-     * @param lo the list of orders
      */
     public void displayListOrder() {
         // Initialize a variable to keep track of the total amount
@@ -266,8 +257,7 @@ public class Manager {
 
     /**
      * If the order exists, updates the order; otherwise, adds a new order.
-     *
-     * @param lo the list of orders
+     
      * @param id the ID of the fruit
      * @param quantity the quantity of the fruit
      */
@@ -286,8 +276,6 @@ public class Manager {
     /**
      * Automatically adds a specified number of fruits to the fruit list.
      *
-     * @param lf the list of fruits
-     * @param ht the hashtable of orders
      */
     public void autoAddFruit() {
         int numOfFruitsToAdd = Validation.getInt("Enter the number of fruits to add: ");
